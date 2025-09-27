@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Header: React.FC = () => {
+  const [open, setOpen] = useState(false);
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const href = e.currentTarget.getAttribute("href");
     if (!href || !href.startsWith("#")) return;
@@ -13,6 +15,7 @@ const Header: React.FC = () => {
       const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
       window.scrollTo({ top, behavior: "smooth" });
     }
+    setOpen(false); // chiude il menu quando clicchi un link
   };
 
   return (
@@ -28,8 +31,18 @@ const Header: React.FC = () => {
           <span className="brand">Studio Medico</span>
         </div>
 
-        <nav aria-label="Menu principale">
-          <ul className="nav-links">
+        {/* Hamburger toggle per mobile */}
+        <div
+          className={`menu-toggle ${open ? "open" : ""}`}
+          onClick={() => setOpen(!open)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <nav aria-label="Menu principale" className="navbar">
+          <ul className={`nav-links ${open ? "active" : ""}`}>
             <li><a href="#hero" onClick={handleNavClick}>Home</a></li>
             <li><a href="#services" onClick={handleNavClick}>Servizi</a></li>
             <li><a href="#about" onClick={handleNavClick}>Chi siamo</a></li>
